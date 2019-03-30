@@ -1948,23 +1948,24 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         trophy: '',
         dedline: '',
         public: false,
-        points: []
+        points: [],
+        status: 'pending'
       },
       inputs: [],
-      categories: ''
+      categories: '',
+      newtasks: []
     };
   },
   methods: {
     submit: function submit(event) {
       var _this = this;
 
-      event.preventDefault();
-      console.log(this.form);
+      this.newtasks.push(_.clone(this.form));
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/task', {
         _token: CSRF_TOKEN,
         main: this.form
       }).then(function (response) {
-        console.log(response.data);
+        console.log(_this.newtasks);
         _this.form.category_type = false;
         _this.form.category = '';
         _this.form.task = '';
@@ -1999,7 +2000,8 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
   },
   components: {
     Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Point: _partials_example_point_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Point: _partials_example_point_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    tableTodo: _TableTodo_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -2071,16 +2073,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['newtask'],
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   data: function data() {
     return {
-      tasks: [],
-      head: ['position', 'task', 'date']
+      tasks: []
     };
   },
   created: function created() {
@@ -32818,109 +32856,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c(
-      "form",
-      {
-        attrs: { id: "task-form", action: "#" },
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.submit($event)
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c(
+        "form",
+        {
+          attrs: { id: "task-form", action: "#" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submit($event)
+            }
           }
-        }
-      },
-      [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-sm-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("h5", [_vm._v("Новая категория или выбрать существующею")]),
-              _vm._v(" "),
-              _c("label", { staticClass: "custom-toggle" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.category_type,
-                      expression: "form.category_type"
-                    }
-                  ],
-                  attrs: { type: "checkbox", name: "choose-category" },
-                  domProps: {
-                    checked: Array.isArray(_vm.form.category_type)
-                      ? _vm._i(_vm.form.category_type, null) > -1
-                      : _vm.form.category_type
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.form.category_type,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.form,
-                              "category_type",
-                              $$a.concat([$$v])
-                            )
-                        } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.form,
-                              "category_type",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
-                        }
-                      } else {
-                        _vm.$set(_vm.form, "category_type", $$c)
-                      }
-                    }
-                  }
-                }),
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-12" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("h5", [_vm._v("Новая категория или выбрать существующею")]),
                 _vm._v(" "),
-                _c("span", {
-                  staticClass: "custom-toggle-slider rounded-circle"
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.form.category_type == false
-              ? _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "custom-toggle" }, [
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.form.category,
-                        expression: "form.category"
+                        value: _vm.form.category_type,
+                        expression: "form.category_type"
                       }
                     ],
-                    staticClass: "form-control form-control-alternative",
-                    attrs: {
-                      type: "text",
-                      name: "category",
-                      required: "required",
-                      placeholder: "Назовите категорию"
+                    attrs: { type: "checkbox", name: "choose-category" },
+                    domProps: {
+                      checked: Array.isArray(_vm.form.category_type)
+                        ? _vm._i(_vm.form.category_type, null) > -1
+                        : _vm.form.category_type
                     },
-                    domProps: { value: _vm.form.category },
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                      change: function($event) {
+                        var $$a = _vm.form.category_type,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.form,
+                                "category_type",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.form,
+                                "category_type",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.form, "category_type", $$c)
                         }
-                        _vm.$set(_vm.form, "category", $event.target.value)
                       }
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("span", {
+                    staticClass: "custom-toggle-slider rounded-circle"
                   })
                 ])
-              : _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "select",
-                    {
+              ]),
+              _vm._v(" "),
+              _vm.form.category_type == false
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
                       directives: [
                         {
                           name: "model",
@@ -32930,196 +32941,253 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control form-control-alternative",
-                      attrs: { name: "category", required: "required" },
+                      attrs: {
+                        type: "text",
+                        name: "category",
+                        required: "required",
+                        placeholder: "Назовите категорию"
+                      },
+                      domProps: { value: _vm.form.category },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "category",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "category", $event.target.value)
                         }
                       }
-                    },
+                    })
+                  ])
+                : _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.category,
+                            expression: "form.category"
+                          }
+                        ],
+                        staticClass: "form-control form-control-alternative",
+                        attrs: { name: "category", required: "required" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "category",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Выберите категорию")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.categories, function(c) {
+                          return _c("option", { domProps: { value: c.id } }, [
+                            _vm._v(_vm._s(c.category))
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "fade" } }, [
+            _vm.form.category != ""
+              ? _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.task,
+                            expression: "form.task"
+                          }
+                        ],
+                        staticClass: "form-control form-control-alternative",
+                        attrs: {
+                          type: "text",
+                          name: "task",
+                          placeholder: "Укажите цель",
+                          required: ""
+                        },
+                        domProps: { value: _vm.form.task },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "task", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.trophy,
+                            expression: "form.trophy"
+                          }
+                        ],
+                        staticClass: "form-control form-control-alternative",
+                        attrs: {
+                          type: "text",
+                          name: "trophy",
+                          placeholder: "Выберите награду",
+                          required: ""
+                        },
+                        domProps: { value: _vm.form.trophy },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "trophy", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-4" },
                     [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Выберите категорию")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.categories, function(c) {
-                        return _c("option", { domProps: { value: c.id } }, [
-                          _vm._v(_vm._s(c.category))
-                        ])
+                      _c("datepicker", {
+                        attrs: {
+                          name: "dedline",
+                          readonly: "false",
+                          "input-class":
+                            "form-control form-control-alternative",
+                          placeholder: "Укажите дедлайн",
+                          required: "",
+                          format: "dd-MM-yyyy"
+                        },
+                        model: {
+                          value: _vm.form.dedline,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "dedline", $$v)
+                          },
+                          expression: "form.dedline"
+                        }
                       })
                     ],
-                    2
-                  )
-                ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.form.category != ""
-            ? _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.task,
-                          expression: "form.task"
-                        }
-                      ],
-                      staticClass: "form-control form-control-alternative",
-                      attrs: {
-                        type: "text",
-                        name: "task",
-                        placeholder: "Укажите цель",
-                        required: ""
-                      },
-                      domProps: { value: _vm.form.task },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "task", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.trophy,
-                          expression: "form.trophy"
-                        }
-                      ],
-                      staticClass: "form-control form-control-alternative",
-                      attrs: {
-                        type: "text",
-                        name: "trophy",
-                        placeholder: "Выберите награду",
-                        required: ""
-                      },
-                      domProps: { value: _vm.form.trophy },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "trophy", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-md-4" },
-                  [
-                    _c("datepicker", {
-                      attrs: {
-                        name: "dedline",
-                        readonly: "false",
-                        "input-class": "form-control form-control-alternative",
-                        placeholder: "Укажите дедлайн",
-                        required: ""
-                      },
-                      model: {
-                        value: _vm.form.dedline,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "dedline", $$v)
-                        },
-                        expression: "form.dedline"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-sm-12" },
-                  [
-                    _vm._l(_vm.inputs, function(input, index) {
-                      return _c("div", { staticClass: "row point" }, [
-                        _c("div", { staticClass: "col-md-10" }, [
-                          _c("div", { staticClass: "form-group" }, [
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-12" },
+                    [
+                      _vm._l(_vm.inputs, function(input, index) {
+                        return _c("div", { staticClass: "row point" }, [
+                          _c("div", { staticClass: "col-md-10" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "input-group input-group-alternative mb-4"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-prepend" },
+                                    [
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-text" },
+                                        [_vm._v(_vm._s(index + 1))]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.points[index],
+                                        expression: "form.points[index]"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "form-control form-control-alternative",
+                                    attrs: {
+                                      type: "text",
+                                      name: "point[]",
+                                      required: ""
+                                    },
+                                    domProps: { value: _vm.form.points[index] },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form.points,
+                                          index,
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-2" }, [
                             _c(
-                              "div",
+                              "button",
                               {
-                                staticClass:
-                                  "input-group input-group-alternative mb-4"
+                                staticClass: "btn btn-icon btn-2 btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removePoint(index)
+                                  }
+                                }
                               },
                               [
                                 _c(
-                                  "div",
-                                  { staticClass: "input-group-prepend" },
-                                  [
-                                    _c(
-                                      "span",
-                                      { staticClass: "input-group-text" },
-                                      [_vm._v(_vm._s(index + 1))]
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.points[index],
-                                      expression: "form.points[index]"
-                                    }
-                                  ],
-                                  staticClass:
-                                    "form-control form-control-alternative",
-                                  attrs: {
-                                    type: "text",
-                                    name: "point[]",
-                                    required: ""
-                                  },
-                                  domProps: { value: _vm.form.points[index] },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form.points,
-                                        index,
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
+                                  "span",
+                                  { staticClass: "btn-inner--icon btn-2 " },
+                                  [_c("i", { staticClass: "ni ni-fat-remove" })]
+                                )
                               ]
                             )
                           ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-2" }, [
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-sm-12" }, [
                           _c(
                             "button",
                             {
@@ -33127,7 +33195,7 @@ var render = function() {
                               attrs: { type: "button" },
                               on: {
                                 click: function($event) {
-                                  return _vm.removePoint(index)
+                                  return _vm.addPoint(_vm.index)
                                 }
                               }
                             },
@@ -33135,129 +33203,112 @@ var render = function() {
                               _c(
                                 "span",
                                 { staticClass: "btn-inner--icon btn-2 " },
-                                [_c("i", { staticClass: "ni ni-fat-remove" })]
-                              )
+                                [_c("i", { staticClass: "ni ni-fat-add" })]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "text-inner" }, [
+                                _vm._v("add row")
+                              ])
                             ]
                           )
                         ])
                       ])
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-sm-12" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-icon btn-2 btn-danger",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.addPoint(_vm.index)
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "span",
-                              { staticClass: "btn-inner--icon btn-2 " },
-                              [_c("i", { staticClass: "ni ni-fat-add" })]
-                            ),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "text-inner" }, [
-                              _vm._v("add row")
-                            ])
-                          ]
-                        )
-                      ])
-                    ])
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col" }, [
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "h5",
-                    {
-                      staticClass: "card-title text-uppercase text-muted mb-0"
-                    },
-                    [_vm._v("Сделать публичным")]
+                    ],
+                    2
                   ),
                   _vm._v(" "),
-                  _c("label", { staticClass: "custom-toggle" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.public,
-                          expression: "form.public"
-                        }
-                      ],
-                      attrs: { type: "checkbox", name: "publish" },
-                      domProps: {
-                        checked: Array.isArray(_vm.form.public)
-                          ? _vm._i(_vm.form.public, null) > -1
-                          : _vm.form.public
+                  _c("div", { staticClass: "col" }, [
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "h5",
+                      {
+                        staticClass: "card-title text-uppercase text-muted mb-0"
                       },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.form.public,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(_vm.form, "public", $$a.concat([$$v]))
+                      [_vm._v("Сделать публичным")]
+                    ),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "custom-toggle" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.public,
+                            expression: "form.public"
+                          }
+                        ],
+                        attrs: { type: "checkbox", name: "publish" },
+                        domProps: {
+                          checked: Array.isArray(_vm.form.public)
+                            ? _vm._i(_vm.form.public, null) > -1
+                            : _vm.form.public
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.form.public,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.form,
+                                    "public",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.form,
+                                    "public",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
                             } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.form,
-                                  "public",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
+                              _vm.$set(_vm.form, "public", $$c)
                             }
-                          } else {
-                            _vm.$set(_vm.form, "public", $$c)
                           }
                         }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("span", {
-                      staticClass: "custom-toggle-slider rounded-circle"
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-icon btn-3 btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [
-                      _c("span", { staticClass: "btn-inner--icon" }, [
-                        _c("i", { staticClass: "ni ni-calendar-grid-58" })
-                      ]),
+                      }),
                       _vm._v(" "),
-                      _c("span", { staticClass: "btn-inner--text" }, [
-                        _vm._v("Создать План")
-                      ])
-                    ]
-                  )
+                      _c("span", {
+                        staticClass: "custom-toggle-slider rounded-circle"
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-icon btn-3 btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [
+                        _c("span", { staticClass: "btn-inner--icon" }, [
+                          _c("i", { staticClass: "ni ni-calendar-grid-58" })
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "btn-inner--text" }, [
+                          _vm._v("Создать План")
+                        ])
+                      ]
+                    )
+                  ])
                 ])
-              ])
-            : _vm._e()
-        ])
-      ],
-      1
-    )
-  ])
+              : _vm._e()
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("table-todo", { attrs: { newtask: _vm.newtasks } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33287,41 +33338,82 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.tasks, function(task) {
-          return _c("tr", [
-            _c("th", { attrs: { scope: "row" } }, [
-              _c("div", { staticClass: "media align-items-center" }, [
-                _c("div", { staticClass: "media-body" }, [
-                  _c("span", { staticClass: "mb-0 text-sm" }, [
-                    _vm._v(_vm._s(task.task))
+        [
+          _vm._l(_vm.newtask, function(n_task) {
+            return _c("tr", [
+              _c("th", { attrs: { scope: "row" } }, [
+                _c("div", { staticClass: "media align-items-center" }, [
+                  _c("div", { staticClass: "media-body" }, [
+                    _c("span", { staticClass: "mb-0 text-sm" }, [
+                      _vm._v(_vm._s(n_task.task))
+                    ])
                   ])
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v(
-                "\n                " + _vm._s(task.trophy) + "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("span", { staticClass: "badge badge-dot mr-4" }, [
-                _c("i", { staticClass: "bg-warning" }),
-                _vm._v(" " + _vm._s(task.status) + "\n          ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v(
-                "\n                " + _vm._s(task.dedline) + "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(1, true)
-          ])
-        }),
-        0
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(n_task.trophy) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c("span", { staticClass: "badge badge-dot mr-4" }, [
+                  _c("i", { staticClass: "bg-warning" }),
+                  _vm._v(" " + _vm._s(n_task.status) + "\n          ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(n_task.dedline) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.tasks, function(task) {
+            return _c("tr", { key: task.id }, [
+              _c("th", { attrs: { scope: "row" } }, [
+                _c("div", { staticClass: "media align-items-center" }, [
+                  _c("div", { staticClass: "media-body" }, [
+                    _c("span", { staticClass: "mb-0 text-sm" }, [
+                      _vm._v(_vm._s(task.task))
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                " + _vm._s(task.trophy) + "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c("span", { staticClass: "badge badge-dot mr-4" }, [
+                  _c("i", { staticClass: "bg-warning" }),
+                  _vm._v(" " + _vm._s(task.status) + "\n          ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                " + _vm._s(task.dedline) + "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(2, true)
+            ])
+          })
+        ],
+        2
       )
     ])
   ])
@@ -33342,6 +33434,49 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Dedline")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-right" }, [
+      _c("div", { staticClass: "dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-sm btn-icon-only text-light",
+            attrs: {
+              href: "#",
+              role: "button",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_c("i", { staticClass: "fas fa-ellipsis-v" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+          },
+          [
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _vm._v("посмотреть план")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _vm._v("ответить на идею")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _vm._v("присоедениться")
+            ])
+          ]
+        )
       ])
     ])
   },

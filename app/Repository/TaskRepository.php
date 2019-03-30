@@ -29,14 +29,15 @@ class TaskRepository
                 'parent_id' => $data['parent_id'],
                 'category' => $data['category']
             ]);
+            $category_id = $category_id->id;
         }else{
-            $category_id = $data['category'];
+            $category_id = (int)$data['category'];
         }
 
         $task_id = $this->task::create([
             'parent_id'   => $data['parent_id'],
             'task'        => $data['task'],
-            'category_id' => $category_id->id,
+            'category_id' => $category_id,
             'trophy'      => $data['trophy'],
             'dedline'     => $data['dedline']
         ]);

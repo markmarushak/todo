@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <datepicker name="dedline" readonly="false" input-class="form-control form-control-alternative" placeholder="Укажите дедлайн" required v-model="form.dedline"></datepicker>
+                    <datepicker name="dedline" readonly="false" input-class="form-control form-control-alternative" placeholder="Укажите дедлайн" required format="dd-MM-yyyy" v-model="form.dedline"></datepicker>
 
                 </div>
 
@@ -123,7 +123,7 @@
 </transition>
 </form>
 
-
+<table-todo :newtask="newtasks"></table-todo>
 
 </div>
 
@@ -136,7 +136,7 @@
     import axios from 'axios';
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-    import todoList from './TableTodo.vue';
+    import tableTodo from './TableTodo.vue';
 
     export default {
         mounted(){
@@ -151,19 +151,22 @@
                     trophy: '',
                     dedline: '',
                     public: false,
-                    points: []
+                    points: [],
+                    status: 'pending'
                 },
                 inputs:[],
-                categories: ''
+                categories: '',
+                newtasks: []
             }
         },
         methods: {
             submit: function(event){
-                event.preventDefault();
-                console.log(this.form);
+                this.newtasks.push(_.clone(this.form));
+                
                 axios.post('/task', {_token: CSRF_TOKEN, main: this.form})
                 .then(response => {
-                    console.log(response.data);
+
+                    console.log(this.newtasks);
                     this.form.category_type = false;
                     this.form.category = '';
                     this.form.task = '';
@@ -193,7 +196,8 @@
        },
        components: {
         Datepicker,
-        Point
+        Point,
+        tableTodo
     }
 }
 </script>

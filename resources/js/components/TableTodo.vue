@@ -12,7 +12,41 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="task in tasks">
+
+                <tr v-for="n_task in newtask">
+                <th scope="row">
+                    <div class="media align-items-center">
+                        <div class="media-body">
+                            <span class="mb-0 text-sm">{{ n_task.task }}</span>
+                        </div>
+                    </div>
+                </th>
+                <td>
+                    {{ n_task.trophy }}
+                </td>
+                <td>
+                <span class="badge badge-dot mr-4">
+                  <i class="bg-warning"></i> {{ n_task.status }}
+              </span>
+                </td>
+                <td>
+                    {{ n_task.dedline }}
+                </td>
+                <td class="text-right">
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a class="dropdown-item" href="#">посмотреть план</a>
+                            <a class="dropdown-item" href="#">ответить на идею</a>
+                            <a class="dropdown-item" href="#">присоедениться</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr v-for="task in tasks" v-bind:key="task.id">
                 <th scope="row">
                     <div class="media align-items-center">
                         <div class="media-body">
@@ -46,6 +80,8 @@
                 </td>
             </tr>
 
+            
+
             </tbody>
         </table>
 
@@ -59,12 +95,12 @@
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     export default {
+        props: ['newtask'],
         mounted() {
             console.log('Component mounted.');  
         },
         data: () => ({
-            tasks: [],
-            head: ['position', 'task', 'date']
+            tasks: []
         }),
         created(){
              axios.get('/task/show', {data: {_token: CSRF_TOKEN}})

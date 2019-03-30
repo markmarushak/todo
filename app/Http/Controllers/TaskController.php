@@ -32,7 +32,7 @@ class TaskController extends Controller
     public function show()
     {
         $id = Auth::id();
-    	return response()->json(Tasks::where('parent_id', $id)->get());
+    	return response()->json(Tasks::where('parent_id', $id)->orderBy('id','desc')->get());
     }
 
     public function add(Request $request)

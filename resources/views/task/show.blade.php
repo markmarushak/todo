@@ -49,8 +49,6 @@
 
                         <div id="app">
                             <todo-add></todo-add>
-                        
-                            <list-task></list-task>
                         </div>
                     </div>
 
