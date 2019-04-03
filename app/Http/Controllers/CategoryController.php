@@ -12,4 +12,9 @@ class CategoryController extends Controller
     {
     	return response()->json(Category::select('id','category')->where('parent_id',Auth::id())->get());
     }
+
+    public function add(Request $request)
+    {
+    	Category::create($request->all());
+    }
 }

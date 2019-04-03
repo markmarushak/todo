@@ -10,5 +10,9 @@ class Category extends Model
 
     protected $fillable = ['category', 'parent_id'];
 
+    protected $arttibute = [
+    	'parent_id' => 0
+    ];
+
     public $timestamps = true;
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UploadTasksTable extends Migration
+class OneUploadTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class UploadTasksTable extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('trophy')->default(0);
-            $table->string('dedline')->default(0);
+            $table->string('category_id')->default(0);
         });
     }
 

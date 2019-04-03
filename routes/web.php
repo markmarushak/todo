@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('task/show', ['as' => 'task.show', 'uses' => 'TaskController@show']);
 
 	Route::get('categories', ['as' => 'task.show', 'uses' => 'CategoryController@show']);
+	Route::post('categories', ['as' => 'task.add', 'uses' => 'CategoryController@add']);
+	Route::put('categories', ['as' => 'task.update', 'uses' => 'CategoryController@update']);
+	Route::delete('categories', ['as' => 'task.delete', 'uses' => 'CategoryController@delete']);
 
 });
 
