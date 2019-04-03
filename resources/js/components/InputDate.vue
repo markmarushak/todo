@@ -2,7 +2,6 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <form id="task-form" @submit.prevent="submit" action="#">
                 <div class="row">
 
                     <category-show></category-show>
@@ -88,7 +87,6 @@
     </div>
 
 
-</form>
 </div>
 
 <table-todo :newtask="newtasks"></table-todo>
@@ -153,11 +151,7 @@
             },
         },
         created(){
-           axios.get('/categories')
-           .then(response => {
-            this.categories = response.data;
-            console.log(this.categories);
-        });
+           
        },
        components: {
         Datepicker,

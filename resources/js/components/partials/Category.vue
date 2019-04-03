@@ -22,7 +22,7 @@
 
                             <div class="col-sm-6" v-if="categories != ''">
                                 <div class="form-group">
-                                    <select name="category" class="form-control form-control-alternative" v-model="category_select">
+                                    <select name="category" class="form-control form-control-alternative" v-model="parent_id">
                                         <option value="">Выберите категорию</option>
                                         <option  v-bind:value="c.id" v-for="c in categories">{{c.category}}</option>
                                     </select>
@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="col">
-					            <button class="btn btn-icon btn-3 btn-success" type="submit">
+					            <button class="btn btn-icon btn-3 btn-success" type="submit" @click="create">
 					                <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
 
 					                <span class="btn-inner--text">Новая категория</span>
@@ -49,19 +49,27 @@
 	export default {
 		mounted(){
 			console.log('categoru load')
+			axios.get('/categories').then(response => {
+					this.categories = response.data
+				});
 		},
 		data: function(){
 			return {
 				category: '',
+				parent_id: 0,
 				category_select: {},
-				categories: ''
+				categories: []
 			}
 		},
 		methods: {
 			create: function(event)
 			{
-				axios.post('/categories', {name:event.target.value}).then(response => {
-					console.log(response.data);
+				var data = {
+					parent_id: this.parent_id,
+					category: this.category
+				}
+				axios.post('/categories', data).then(response => {
+					categories.push(data);
 				});
 			},
 			update: function()
